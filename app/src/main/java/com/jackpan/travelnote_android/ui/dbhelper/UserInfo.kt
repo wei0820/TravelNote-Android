@@ -9,6 +9,6 @@ import androidx.room.PrimaryKey
 data class UserInfo(
     @PrimaryKey var id : Int  = 0,
     var name : String = ""
-    
+
 
 )
