@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.PhoneAuthProvider
 
 class LoginViewModel : ViewModel() {
 
@@ -31,10 +32,14 @@ class LoginViewModel : ViewModel() {
         loginDataModel.getPhoneNumberVerification(phoneNumber,activity)
 
     }
-
-    fun initPhoneCallback(){
-        loginDataModel.initCallback()
+    fun setVerifyPhoneNumberWithCode(code : String){
+        loginDataModel.verifyPhoneNumberWithCode(code)
     }
+
+
+
+
+
 
 
 }
