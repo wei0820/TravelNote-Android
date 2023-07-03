@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "364566909632",
+    "project_id": "travelnote-d1c0b",
+    "storage_bucket": "travelnote-d1c0b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364566909632:android:af2df4c6105cd063a91325",
+        "android_client_info": {
+          "package_name": "com.jackpan.travelnote_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364566909632-2k54c23v07v88bilsalanog47b00d4ln.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jackpan.travelnote_android",
+            "certificate_hash": "f0366a1aae461a1338d8e0631c1a1221cba616f6"
+          }
+        },
+        {
+          "client_id": "364566909632-60p51ga7gncd10s3fbd3l79m4aeusdcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA211DhYKcqF1nAuDPjTQS12S3OhLn75nU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364566909632-60p51ga7gncd10s3fbd3l79m4aeusdcg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

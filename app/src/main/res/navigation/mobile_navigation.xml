@@ -22,4 +22,11 @@
         android:name="com.jackpan.travelnote_android.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+
+    <fragment
+        android:id="@+id/nav_map"
+        android:name="com.jackpan.travelnote_android.ui.map.MapsFragment"
+        android:label="map"
+        tools:layout="@layout/fragment_maps" />
 </navigation>
