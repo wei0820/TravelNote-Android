@@ -1,6 +1,7 @@
 package com.jackpan.travelnote_android.login
 
 import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -58,7 +59,7 @@ class LoginDataModel  {
                     //     detect the incoming verification SMS and perform verification without
                     //     user action.
                     Log.d(TAG, "onVerificationCompleted:$credential")
-                    signInWithPhoneAuthCredential(credential)
+                    signInWithPhoneAuthCredential(credential,activity)
                 }
 
                 override fun onVerificationFailed(e: FirebaseException) {
@@ -96,16 +97,17 @@ class LoginDataModel  {
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential, activity: Activity) {
         mAuth = FirebaseAuth.getInstance()
 
 
         mAuth!!.signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful){
                 Log.d(TAG, "signInWithCredential:success")
-
                 val user = it.result?.user
-                Log.d(TAG, user!!.uid)
+
+                activity.startActivity(Intent(activity,MainActivity::class.java))
+                activity.finish()
 
             }else{
                 Log.w(TAG, "signInWithCredential:failure", it.exception)
@@ -117,11 +119,11 @@ class LoginDataModel  {
 
     }
 
-        fun verifyPhoneNumberWithCode(code: String) {
+        fun verifyPhoneNumberWithCode(code: String, activity: Activity) {
         // [START verify_with_code]
         val credential = PhoneAuthProvider.getCredential(storedVerificationId!!, code)
         // [END verify_with_code]
-        signInWithPhoneAuthCredential(credential)
+        signInWithPhoneAuthCredential(credential,activity)
     }
 
 }

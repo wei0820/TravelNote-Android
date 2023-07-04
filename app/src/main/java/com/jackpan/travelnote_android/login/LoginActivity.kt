@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
         }
         mLoginButton.setOnClickListener {
             var code = mVerificationEdt.text.toString()
-            loginViewModel.setVerifyPhoneNumberWithCode(code)
+            loginViewModel.setVerifyPhoneNumberWithCode(code,this)
 
         }
     }

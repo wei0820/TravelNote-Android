@@ -32,8 +32,8 @@ class LoginViewModel : ViewModel() {
         loginDataModel.getPhoneNumberVerification(phoneNumber,activity)
 
     }
-    fun setVerifyPhoneNumberWithCode(code : String){
-        loginDataModel.verifyPhoneNumberWithCode(code)
+    fun setVerifyPhoneNumberWithCode(code : String, activity: Activity){
+        loginDataModel.verifyPhoneNumberWithCode(code,activity)
     }
 
 
