@@ -25,6 +25,15 @@ class LoginDataModel  {
         fun  getResponseDate(user : FirebaseUser)
 
     }
+    interface  GetPhoneNumberVerificationResponse{
+        fun  getVerificationResponse(s:String)
+    }
+
+    interface  GetUserResponse{
+        fun  getUser(user: FirebaseUser)
+
+    }
+
 
 
     fun checkLoginState(response: loginStateResponse){
@@ -42,9 +51,9 @@ class LoginDataModel  {
     }
 
 
-    fun getPhoneNumberVerification(phoneNumber : String , activity: Activity){
-        Log.d(TAG,phoneNumber)
+    fun getPhoneNumberVerification(phoneNumber : String , activity: Activity,getPhoneNumberVerificationResponse: GetPhoneNumberVerificationResponse){
         mAuth = FirebaseAuth.getInstance()
+
 
         val options = PhoneAuthOptions.newBuilder(mAuth!!)
             .setPhoneNumber(phoneNumber) // Phone number to verify
@@ -59,6 +68,7 @@ class LoginDataModel  {
                     //     detect the incoming verification SMS and perform verification without
                     //     user action.
                     Log.d(TAG, "onVerificationCompleted:$credential")
+
                     signInWithPhoneAuthCredential(credential,activity)
                 }
 
@@ -90,17 +100,18 @@ class LoginDataModel  {
                     // Save verification ID and resending token so we can use them later
                     storedVerificationId = verificationId
                     resendToken = token
+                    getPhoneNumberVerificationResponse.getVerificationResponse(storedVerificationId!!)
+
                 }
 
             }) // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
+
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential, activity: Activity) {
         mAuth = FirebaseAuth.getInstance()
-
-
         mAuth!!.signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful){
                 Log.d(TAG, "signInWithCredential:success")
@@ -119,11 +130,26 @@ class LoginDataModel  {
 
     }
 
-        fun verifyPhoneNumberWithCode(code: String, activity: Activity) {
-        // [START verify_with_code]
-        val credential = PhoneAuthProvider.getCredential(storedVerificationId!!, code)
+        fun verifyPhoneNumberWithCode(code: String,key : String,getUserResponse: GetUserResponse) {
+            mAuth = FirebaseAuth.getInstance()
+            // [START verify_with_code]
+
+            val credential = PhoneAuthProvider.getCredential(key, code)
         // [END verify_with_code]
-        signInWithPhoneAuthCredential(credential,activity)
-    }
+            mAuth!!.signInWithCredential(credential).addOnCompleteListener {
+                if(it.isSuccessful){
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = it.result?.user
+                    getUserResponse.getUser(user!!)
+
+
+
+                }else{
+                    Log.w(TAG, "signInWithCredential:failure", it.exception)
+                    if (it.exception is FirebaseAuthInvalidCredentialsException) {
+                        // The verification code entered was invalid
+                    }
+                }
+            }    }
 
 }
