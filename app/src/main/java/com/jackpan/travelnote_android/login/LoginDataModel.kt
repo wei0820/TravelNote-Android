@@ -9,13 +9,24 @@ import com.google.firebase.auth.*
 import com.google.firebase.ktx.Firebase
 import com.jackpan.travelnote_android.MainActivity
 import io.realm.kotlin.internal.platform.freeze
+import io.realm.kotlin.internal.platform.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import java.io.IOException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
-class LoginDataModel  {
+class LoginDataModel {
     private  val TAG = "LoginDataModel"
     private lateinit var auth: FirebaseAuth
     private var storedVerificationId: String? = ""
+    var stateFlow = MutableStateFlow<String>("")
+    var sharedFlow = MutableSharedFlow<String>()
+
 
      var mAuth: FirebaseAuth? = null
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
@@ -34,21 +45,91 @@ class LoginDataModel  {
 
     }
 
+   suspend fun main(){
+       runBlocking {
+           flow<String> {
+
+           }.flowOn(Dispatchers.IO){}}
+       }
 
 
-    fun checkLoginState(response: loginStateResponse){
+        stateFlow.value
+        stateFlow.collect{
+            println(it)
+
+        }
+        val job =  GlobalScope.launch {
+
+        }
+      job.cancel()
+
+       flow<String> {  }.retryWhen { cause, attempt ->
+           return@retryWhen cause is Exception && attempt < 3
+       }
+
+
+
+    }
+
+
+
+    fun  checkLoginState() = callbackFlow<
+            String> {
         mAuth = FirebaseAuth.getInstance()
         val currentUser = mAuth!!.currentUser
         if (currentUser != null) {
-            response.getResponseDate(currentUser)
 
+            trySend(currentUser.uid)
 
         }else{
 
         }
+        awaitClose {
 
+        }
 
     }
+    fun coldFlow()  = coldFlow()
+
+    fun  get(){
+        runBlocking {
+            checkLoginState().collect{
+
+            }
+        }
+    }
+
+
+
+
+//    fun checkLoginState() : String{
+//        mAuth = FirebaseAuth.getInstance()
+//        val currentUser = mAuth!!.currentUser
+//        if (currentUser != null) {
+//
+//
+//        }else{
+//
+//        }
+//       return  currentUser!!.uid
+//
+//    }
+
+
+//
+//    fun checkLoginState(response: loginStateResponse){
+//        mAuth = FirebaseAuth.getInstance()
+//        val currentUser = mAuth!!.currentUser
+//        if (currentUser != null) {
+//            response.getResponseDate(currentUser)
+//
+//
+//        }else{
+//
+//        }
+//
+//
+//    }
 
 
     fun getPhoneNumberVerification(phoneNumber : String , activity: Activity,getPhoneNumberVerificationResponse: GetPhoneNumberVerificationResponse){

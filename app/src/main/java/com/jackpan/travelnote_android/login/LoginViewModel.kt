@@ -7,9 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel @Inject constructor(): ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"
@@ -22,10 +26,34 @@ class LoginViewModel : ViewModel() {
     var userData = MutableLiveData<FirebaseUser>()
 
     fun getFirebaseUser(): LiveData<FirebaseUser> {
+
+        viewModelScope.launch {
+            flow {
+                emit(loginDataModel.checkLoginState())
+            }.flowOn(Dispatchers.IO).catch {
+                e -> e.localizedMessage
+
+            }.collect{
+
+
+            }
+            callbackFlow<String>
+            {
+
+
+
+            }
+        }
+
+
+
         loginDataModel.checkLoginState(object : LoginDataModel.loginStateResponse {
             override fun getResponseDate(user: FirebaseUser) {
                 viewModelScope.launch {
-                    userLiveData.value = user
+                    flow {
+                        emit(2)
+                    }.flowOn(CoroutineScope.io)
+
 
                 }
 

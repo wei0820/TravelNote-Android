@@ -48,6 +48,16 @@ class LoginActivity : AppCompatActivity() {
         mPhoneEdt = findViewById(R.id.edt)
         mLoginButton = findViewById(R.id.loginbtn)
 
+      UserData().apply {
+            this.name = ""
+            this.age = 20
+        }.also {
+
+      }.getAge()
+
+        }
+
+
 
 
     }

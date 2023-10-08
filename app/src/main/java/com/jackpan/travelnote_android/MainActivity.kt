@@ -13,14 +13,18 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.jackpan.travelnote_android.databinding.ActivityMainBinding
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
+    var m = MainScope()
 
     @Inject lateinit var  userMethod: UserMethod
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    var array = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -41,6 +45,67 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 //        DaggerCreatureComponent.builder().userModule(UserModule(0)).build().inject(this)
 //        userMethod.create()
+
+        runBlocking {
+          val a =   async(start = CoroutineStart.LAZY){}
+            a.start()
+            a.await()
+        }
+        GlobalScope.launch {
+
+
+
+        }
+        runBlocking {
+            var list  = listOf(666,777,888)
+            list.asFlow().filter {
+                it > 777
+            }
+            f().collect{
+
+            }
+            val a = flowOf('a', 'b', 'c', 'd')
+
+            val strs = flowOf('a', 'b', 'c', 'd')
+
+            a.zip(strs){
+                a,b->
+            }
+        }
+        var f = flowOf(array).fi
+
+    }
+
+    fun getUser(){
+        val handler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            throwable.localizedMessage
+        }
+        GlobalScope.launch(Dispatchers.Main+handler){}
+        GlobalScope.launch {
+            get()
+            set()
+        }
+    }
+
+    suspend fun get(): String{
+        return withContext(Dispatchers.IO){
+            this.toString()
+
+        }
+
+
+    }
+    fun set(){
+
+    }
+
+    fun f () = flow<String> {
+        emit()
+
+
+    }
+    fun getIn(i : Int) = flow {
+        emit(i)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -52,5 +117,11 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    fun main() = runBlocking {
+        var job = GlobalScope.launch {
+
+        }
     }
 }

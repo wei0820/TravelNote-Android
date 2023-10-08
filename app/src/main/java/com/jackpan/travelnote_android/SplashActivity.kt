@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.jackpan.travelnote_android.login.LoginActivity
+import io.reactivex.Observable
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,5 +13,8 @@ class SplashActivity : AppCompatActivity() {
 
         startActivity(Intent(this,LoginActivity::class.java))
         this.finish()
+
+        Observable.just("",1,"").filter()
+
     }
 }
